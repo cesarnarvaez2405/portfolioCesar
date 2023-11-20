@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UsuariosModule } from './usuarios/usuarios.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -8,6 +9,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
       envFilePath: '.env.development',
     }),
     UsuariosModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

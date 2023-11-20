@@ -8,14 +8,29 @@ import { Usuario } from './entities/usuario.entity';
 export class UsuariosService {
   constructor(
     @Inject('USUARIO_REPOSITORY')
-    private equipoRepository: Repository<Usuario>,
+    private readonly usuarioRepository: Repository<Usuario>,
   ) {}
-  create(createUsuarioDto: CreateUsuarioDto) {
-    return 'This action adds a new usuario';
+
+  async create(createUsuarioDto: CreateUsuarioDto) {
+    const usuario = this.usuarioRepository.create(createUsuarioDto);
+    return this.usuarioRepository.save(usuario);
   }
 
-  findAll() {
-    return `This action returns all usuarios`;
+  async findAll() {
+    return this.usuarioRepository.find();
+  }
+
+  async buscarPorEmail(email: string) {
+    return this.usuarioRepository.findOneBy({
+      email,
+    });
+  }
+
+  async buscarPorEmailYPassword(email: string) {
+    return this.usuarioRepository.findOne({
+      where: { email },
+      select: ['RowId', 'nombre', 'email', 'password', 'rol_id', 'esta_activo'],
+    });
   }
 
   findOne(id: number) {
