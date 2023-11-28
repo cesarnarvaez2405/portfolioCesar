@@ -47,4 +47,8 @@ export class AuthService {
       payload,
     };
   }
+
+  async usuario(){
+    
+  }
 }
