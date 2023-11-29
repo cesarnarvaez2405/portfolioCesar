@@ -48,7 +48,8 @@ export class AuthService {
     };
   }
 
-  async usuario(){
-    
+  async usuario(usuario) {
+    const { email } = usuario;
+    return await this.usuariosService.buscarPorEmail(email);
   }
 }
