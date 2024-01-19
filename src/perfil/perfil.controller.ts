@@ -1,18 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PerfilService } from './perfil.service';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
+import { Auth } from 'src/auth/decorators/auth.decorators';
 
 @Controller('perfil')
 export class PerfilController {
   constructor(private readonly perfilService: PerfilService) {}
 
   @Post()
+  @Auth()
   create(@Body() createPerfilDto: CreatePerfilDto) {
     return this.perfilService.create(createPerfilDto);
   }
 
   @Get()
+  @Auth()
   findAll() {
     return this.perfilService.findAll();
   }

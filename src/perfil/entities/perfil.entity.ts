@@ -8,4 +8,7 @@ export class Perfil extends entityBase {
 
   @Column({ type: 'character varying' })
   descripcion: string;
+
+  @Column()
+  foto: string
 }

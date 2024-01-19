@@ -1,15 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
+import { Perfil } from './entities/perfil.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PerfilService {
-  create(createPerfilDto: CreatePerfilDto) {
-    return 'This action adds a new perfil';
+  constructor(
+    @Inject('PERFIL_REPOSITORY')
+    private equipoRepository: Repository<Perfil>,
+  ) {}
+  async create(createPerfilDto: CreatePerfilDto) {
+    const perfil = this.equipoRepository.create(createPerfilDto);
+    return await this.equipoRepository.save(perfil);
   }
 
-  findAll() {
-    return `This action returns all perfil`;
+  async findAll() {
+    return await this.equipoRepository.find();
   }
 
   findOne(id: number) {
