@@ -1,11 +1,31 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSkillsPerfilDto } from './dto/create-skills-perfil.dto';
+import { Inject, Injectable } from '@nestjs/common';
 import { UpdateSkillsPerfilDto } from './dto/update-skills-perfil.dto';
+import { Repository } from 'typeorm';
+import { SkillsPerfil } from './entities/skills-perfil.entity';
 
 @Injectable()
 export class SkillsPerfilService {
-  create(createSkillsPerfilDto: CreateSkillsPerfilDto) {
-    return 'This action adds a new skillsPerfil';
+  constructor(
+    @Inject('SKILLS_PERFIL_REPOSITORY')
+    private skillRepository: Repository<SkillsPerfil>,
+  ) {}
+  async create(skillsPerfil: any[], perfilId: number) {
+    const skills = [];
+
+    skillsPerfil.map((skill) =>
+      skills.push({
+        skillId: skill,
+        perfil: perfilId,
+      }),
+    );
+    await this.skillRepository
+      .createQueryBuilder()
+      .insert()
+      .into(SkillsPerfil)
+      .values([...skills])
+      .execute();
+
+    return skills;
   }
 
   findAll() {

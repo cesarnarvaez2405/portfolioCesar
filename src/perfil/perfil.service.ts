@@ -8,15 +8,17 @@ import { Repository } from 'typeorm';
 export class PerfilService {
   constructor(
     @Inject('PERFIL_REPOSITORY')
-    private equipoRepository: Repository<Perfil>,
+    private perfilRepository: Repository<Perfil>,
   ) {}
   async create(createPerfilDto: CreatePerfilDto) {
-    const perfil = this.equipoRepository.create(createPerfilDto);
-    return await this.equipoRepository.save(perfil);
+    const perfil = this.perfilRepository.create(createPerfilDto);
+    return await this.perfilRepository.save(perfil);
   }
 
   async findAll() {
-    return await this.equipoRepository.find();
+    return await this.perfilRepository.find({
+      relations: ['skills'],
+    });
   }
 
   findOne(id: number) {

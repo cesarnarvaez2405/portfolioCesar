@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { entityBase } from '../../utils/entityBase';
+import { SkillsPerfil } from '../../skills-perfil/entities/skills-perfil.entity';
 
 @Entity()
 export class Perfil extends entityBase {
@@ -10,5 +11,8 @@ export class Perfil extends entityBase {
   descripcion: string;
 
   @Column()
-  foto: string
+  foto: string;
+
+  @OneToMany(() => SkillsPerfil, (skill) => skill.perfil)
+  skills: SkillsPerfil[];
 }

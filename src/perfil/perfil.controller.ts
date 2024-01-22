@@ -11,6 +11,7 @@ import { PerfilService } from './perfil.service';
 import { CreatePerfilDto } from './dto/create-perfil.dto';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
 import { Auth } from 'src/auth/decorators/auth.decorators';
+import { mensajePropiedades, alertMessage } from 'src/utils/alertMessage';
 
 @Controller('perfil')
 export class PerfilController {
@@ -18,14 +19,22 @@ export class PerfilController {
 
   @Post()
   @Auth()
-  create(@Body() createPerfilDto: CreatePerfilDto) {
-    return this.perfilService.create(createPerfilDto);
+  async create(@Body() createPerfilDto: CreatePerfilDto) {
+    try {
+      return await this.perfilService.create(createPerfilDto);
+    } catch (error) {
+      return alertMessage['badSuccess'];
+    }
   }
 
   @Get()
   @Auth()
   findAll() {
-    return this.perfilService.findAll();
+    try {
+      return this.perfilService.findAll();
+    } catch (error) {
+      return alertMessage['badSuccess'];
+    }
   }
 
   @Get(':id')
